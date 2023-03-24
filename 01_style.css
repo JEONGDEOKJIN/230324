@@ -1,0 +1,86 @@
+.popup-wrap {
+
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+
+    /* 이게 뭐였지........ 하.... 😥😥😥😥😥😥  */
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    display: none;
+
+}
+
+
+/* 팝업, 이 클래스가 붙으면 > 켜지게 함  */
+.is-on {
+    display: block;
+}
+
+
+.popup-wrap .popup {
+
+    /* relative 없이 이것만❓❓❓❓❓  */
+    position: absolute;
+    width: 400px;
+    height: 600px;
+
+    background-color: white;
+
+    border-radius: 20px;
+    
+    /* 중점 포인트 이동  */
+    top: 50%;
+    left: 50%;
+    /* 반지름 빼는거 ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ */
+    transform: translate(-50%, -50%);
+}
+
+
+.popup-wrap .popup .popup-btn {
+
+    width: 30px;
+    height: 30px;
+
+    /* ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ 위치 지정 이거 약해 */
+    margin: 10px;
+
+    /* border: 1px solid; */
+    
+    /* span 이니까 > block 속성 줘야 보임 ⭐⭐⭐  */
+    display: block;
+
+    /* 오른쪽으로 가게 하는 거 ⭐⭐⭐ */
+    float: right;
+
+    /* 아래에 absolute 달았으니까 */
+    position: relative;
+}
+
+
+/* , 를 찍으면, 두 요소에 동시에 먹일 수 있음. ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ */
+.popup-wrap .popup .popup-btn::after,
+.popup-wrap .popup .popup-btn::before {
+
+    content: "";
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) rotate(45deg);
+    
+    height: 5px;
+    width: 100%;
+
+    background-color: black;
+}
+
+
+.popup-wrap .popup .popup-btn::before {
+    transform: translate(-50%, -50%) rotate(-45deg);
+
+}

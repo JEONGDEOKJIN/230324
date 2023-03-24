@@ -1,0 +1,90 @@
+
+/* 팝업 뒷 배경 */
+.popup-wrap {
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+
+    /* 왼쪽 상단 모서리(중점값) 을 왼쪽상단, 에 둔다는 건가?❓❓  */
+    top: 0;
+    left: 0;
+
+    background-color: rgba(0, 0, 0, 0.3);
+
+    /* 처음엔 보이지 않게 해야 > 나중에 빵 뜰 때 보이니까 */
+    /* 우선, 임시로 보이게 함 ✅✅✅  */
+    display: block;
+}
+
+
+/* 이 클래스가 붙으면 > 팝업이 켜진다. */
+.is-on {
+    display: block;
+}
+
+
+/* 실제 팝업이 뜨는 부분 */
+.popup-wrap .popup {
+
+    /* relative 없이 이것만❓❓❓❓❓  */
+    position: absolute;
+    width: 400px;
+    height: 600px;
+
+    background-color: white;
+
+    border-radius: 20px;
+
+    /* 왼쪽 상단 이동 */
+    top: 50%;
+    left: 50%;
+    /* 반지름 빼는 것 */
+    transform: translate(-50%, -50%);
+}
+
+
+.popup-wrap .popup .popup-btn {
+
+    cursor: pointer;
+
+    width: 30px;
+    height: 30px;
+
+    /* ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ 위치 지정 이거 약해 */
+    margin: 10px;
+ 
+    /* border: 1px solid; */
+
+    /* span 이니까 > block 속성 줘야 보임 ⭐⭐⭐  */
+    display: block;
+
+    /* 오른쪽으로 가게 하는 거 ⭐⭐⭐ */
+    float: right;
+
+    position: relative;
+    
+}
+
+/* , 를 찍으면, 두 요소에 동시에 먹일 수 있음. ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ */
+.popup-wrap .popup .popup-btn::after,
+.popup-wrap .popup .popup-btn::before {
+
+    content: "";
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) rotate(45deg);
+
+    height: 5px;
+    width: 100%;
+
+    background-color: black;
+
+}
+
+.popup-wrap .popup .popup-btn::before {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
