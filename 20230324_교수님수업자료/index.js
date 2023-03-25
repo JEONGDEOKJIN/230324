@@ -132,6 +132,7 @@ let dateTemp = 1000;
 // let date = new Date(time);
 //console.log(date);
 // setInterval 제거 방법
+
 let setTime = setInterval(() => {
     let date2 = new Date();
     // // 값이 들어온것 객체가 아니고
@@ -165,13 +166,16 @@ function times(time){
     // 일단위를 빼고
     time %= (24 * 60 * 60 *1000);
     let hour = Math.floor(time / (60 * 60 * 1000));
+
     // 시간단위를 빼고
     time %= (60 * 60 * 1000);
     let min = Math.floor(time /(60 * 1000));
+
     // 분단위를 다빼고
     time %= (60 * 1000)
     // 남은 초
     let sec = Math.floor(time / 1000);
+    
     console.log(day);
     console.log(hour);
     console.log(min);

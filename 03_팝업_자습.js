@@ -14,7 +14,7 @@ let popupEvent = document.querySelector('.event-btn');
 
 // 이건, 밑에 부분(setTime 하는 부분) 과 연결 된다.  
 let popupCookie = getCookie("event-popup");
-
+    
 
 
 
@@ -88,7 +88,6 @@ let popupCookie = getCookie("event-popup");
     }
 
 
-
 // 🟦 set cookie 함수 : 이름, 값, 시간을 input 하면 > 1차 쿠키가 '시간 객체로 변환' 되고 > 최종적으로 ⭐'시간 객체를 value로 가진 쿠키 데이터'⭐ 가 output 됨. 
     function setCookie (c_name, value, time) {
 
@@ -137,15 +136,23 @@ let popupCookie = getCookie("event-popup");
 
             // document.cookie = c_name + "=" + `{ "value" : "${value}" , "time" : "${str2}"}` + ";expires=" + date.toUTCString() + ";path=/"
 
-        // ❓ 이건 필요없는거 아닌가? 
+
+        // 🔍 setCookie 의 결과, 실제로 '어떤 데이터 구성 및 유형' 인지 확인⭐ 
+            // [필요성] : cookie 데이터가 '문자열' 이고 > 이것을 객체로 parse 하려면 > 쿠키가 output 될 때, 제대로 나오는지 확인해야 함. ⭐⭐⭐
+            // [확인 결과]
             let value2 = getCookie("event-popup");
                 // 이건 위에서 이미, event-popup 만든거고
-            console.log(JSON.parse(value2));
+                // 데이터 유형이 제대로 들어오고 있는지 확인해야 > parse 를 쓸 수 있음. ⭐⭐ 
+            console.log("setCookie 로 만들어진 쿠키 데이터 > getCookie로 가져온 value2 의 데이터 유형은? : " + (value2));
+                // [결과물] { "value" : "true" , "time" : "Sat Mar 25 2023 10:43:41 GMT+0900 (한국 표준시)"}
+            console.log("setCookie 로 만들어진 쿠키 데이터 > getCookie로 가져온 value2 의 데이터 유형은? : " + JSON.parse(value2));
+                // [결과물] [object Object] 
         }
             // [set cookie 함수 매개변수 해석]
                     // c_name : 쿠키의 이름 
                     // value : 해당 쿠키에 넣을 값 
                     // time : 해당 쿠키가 유지되는 시간
+
 
 
 
@@ -199,17 +206,57 @@ let popupCookie = getCookie("event-popup");
             // [궁금증]
                 // 과연 str2 에 들어가는 값의 형태는 무엇 인가 ❓❓❓ ⭐⭐⭐ 
                 // 이걸 확인해보자
-
     }
 
+    // 🔍 popupCookie 변수에 담긴 데이터 유형 확인
+        // 필요성 : 쿠키 문자열 데이터를 객체로 parse 할 때, 실제로 어떤 데이터인지 알아야 함. 
+        console.log(popupCookie + "⭐⭐⭐⭐⭐")
+            // { "value" : "true" , "time" : "Sat Mar 25 2023 11:02:40 GMT+0900 (한국 표준시)"}⭐⭐⭐⭐⭐
+        console.log("setCookie 로 만들어진 쿠키 데이터 > getCookie로 가져온 popupCookie 의 데이터 유형은? : " + (popupCookie));
+            // [결과물] { "value" : "true" , "time" : "Sat Mar 25 2023 11:02:40 GMT+0900 (한국 표준시)"}
+        // console.log("setCookie 로 만들어진 쿠키 데이터 > getCookie로 가져와서 > parse 한 데이터 유형은? : " + JSON.parse(popupCookie));
+            // [결과물] [object Object] 
 
 
 
 // ---------- 📚 위에서 만들어진 변수를 받아 > 시간 표시 
 
-
+// 🟦 1000 밀리 세컨즈 마다, 뭔가를 실행하게 함. 
 let setTime = setInterval(() => {
     
+    // 현재 시간을 'date2' 객체에 담는다. 
+        let dateNow = new Date();
+
+    // '남은 시간' 이라고 쓸 수 있는 span 태그를 > timeTag 에 넣는다. 
+        let timeTag = document.querySelector('.popup-time')
+
+    // 쿠키데이터가 있으면 -> 
+    if(popupCookie != undefined) {
+
+        // 생성된 쿠키 데이터를 > 객체화 해서 > time 의 값을 뽑고 > 변수에 넣는다 
+        let time = JSON.parse(popupCookie).time;
+            console.log(" time 의 데이터 타입은? " + typeof time);
+            // 여기가 '문자열' 이라고 가정 
+
+        // '시간' 을 '객체' 로 만들기
+        let dateCookieMade = new Date(time);
+
+        console.log(dateCookieMade);
+        console.log(dateNow);
+        console.log(popupTime(dateNow, dateCookieMade))
+
+        timeTag.innerHTML = times(popupTime(dateNow, dateCookieMade));
+        
+    }
+    
+
+    // [궁금증]
+        // popupCookie 가, 문자열 인가? 
+
+    // [해석] 
+        // popupCookie : setcookie 에서 event-popup 으로 만들어진 쿠키 데이터를 > getcookie 로 가져와서 > 담은 변수
+        // JSON.parse() : jsonString 문자열을 파싱하여 jsonObj 객체로 변환
+
 }, 1000);
     // [해석]
         // // 비동기 함수 setTimeout이 함수는 매개변수로 전달한 시간이후에 실행되는 함수.
@@ -217,4 +264,57 @@ let setTime = setInterval(() => {
             //     // 1초뒤에 실행
             // }, 1000);
 
+
+
+// 🟦 '현재 시각'과 '쿠키 만료 시간' 차이
+function popupTime (_dateNow, _dateCookieMade) {
     
+    // 해당 함수의 데이터 유형 확인
+    console.log( "✅ popupTime 데이터 유형 : " + _dateNow.getTime() - _dateCookieMade.getTime())
+        // 밀리세컨즈? 가 나오나? 
+
+    return _dateNow.getTime() - _dateCookieMade.getTime();
+}
+
+
+
+// 🟦 내가 원하는 형태로 시간을 변경한다. 
+function times (time) {
+
+    console.log( "time 이 뭐가 들어오지? 밀리세컨즈가 들어오나? : " + time)
+
+    // time 으로 밀리세컨즈가 들어온 데이터를 > '몇 일?' 이라는 기준에 맞게 변환하는 과정
+    let day = Math.floor( time / (24 * 60 * 60 * 1000 ));
+
+    // 밀리세컨즈롤 > '시간 단위' 에 맞게 변환하기 
+        // 시간단위를 빼고 
+    time %= (24 * 60 * 60 * 1000);
+    let hour = Math.floor( time / 60 * 60 * 1000);
+    
+    // 밀리세컨즈를 '분 단위' 로 변환
+    time %= (60 * 60 * 1000);
+    let min = Math.floor( time / 60 * 1000);
+    
+    // 밀리세컨즈를 '초 단위' 로 변환
+    let sec = Math.floor( time / 60 * 1000);
+
+    console.log(day);
+    console.log(hour);
+    console.log(min);
+    console.log(sec);
+
+
+    // 만약, 시간이 끝나면 > 이렇게 해라~
+    if(time < 0) {
+
+        // setInterval 로 생성한 타이머를 중지시키기 
+        clearInterval(setTime);
+
+        // 남은시간에 자동으로 표시될 구문(span 태그로 잡은 부분) 을 잡는다. > 그리고 지운다. 
+        let timeTag = document.querySelector('.popup-time')
+        timeTag.innerHTML = "";
+    }
+
+    return `${day}일,  ${hour}시, ${min}분, ${sec}초`
+}
+
