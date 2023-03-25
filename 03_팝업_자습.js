@@ -25,6 +25,8 @@ let popupCookie = getCookie("event-popup");
     // 1. 선언
     function popupOpen() {
             let popup = document.querySelector('.popup-wrap');
+            console.log("팝업함수 뜰 때, popup 변수에 뭐가 담기나?✍" + popup)
+            // 지금 popup 이 뜨는 트리거가 없고, 우선은, 꺼지는 것만 있어!
 
             if (popup.classList.contains("is-on")) {
                 popup.classList.remove("is-on");
@@ -218,14 +220,13 @@ let popupCookie = getCookie("event-popup");
             // [결과물] [object Object] 
 
 
-
 // ---------- 📚 위에서 만들어진 변수를 받아 > 시간 표시 
 
 // 🟦 1000 밀리 세컨즈 마다, 뭔가를 실행하게 함. 
 let setTime = setInterval(() => {
     
     // 현재 시간을 'date2' 객체에 담는다. 
-        let dateNow = new Date();
+        let dateRepeatCheck = new Date();
 
     // '남은 시간' 이라고 쓸 수 있는 span 태그를 > timeTag 에 넣는다. 
         let timeTag = document.querySelector('.popup-time')
@@ -242,10 +243,10 @@ let setTime = setInterval(() => {
         let dateCookieMade = new Date(time);
 
         console.log(dateCookieMade);
-        console.log(dateNow);
-        console.log(popupTime(dateNow, dateCookieMade))
+        console.log(dateRepeatCheck);
+        console.log(popupTime(dateRepeatCheck, dateCookieMade))
 
-        timeTag.innerHTML = times(popupTime(dateNow, dateCookieMade));
+        timeTag.innerHTML = times(popupTime(dateRepeatCheck, dateCookieMade));
         
     }
     
@@ -267,13 +268,13 @@ let setTime = setInterval(() => {
 
 
 // 🟦 '현재 시각'과 '쿠키 만료 시간' 차이
-function popupTime (_dateNow, _dateCookieMade) {
+function popupTime (_dateRepeatCheck, _dateCookieMade) {
     
     // 해당 함수의 데이터 유형 확인
-    console.log( "✅ popupTime 데이터 유형 : " + _dateNow.getTime() - _dateCookieMade.getTime())
+    console.log( "✅ popupTime 데이터 유형 : " + _dateRepeatCheck.getTime() - _dateCookieMade.getTime())
         // 밀리세컨즈? 가 나오나? 
 
-    return _dateNow.getTime() - _dateCookieMade.getTime();
+    return _dateCookieMade.getTime() - _dateRepeatCheck.getTime() ;
 }
 
 
@@ -284,7 +285,7 @@ function times (time) {
     console.log( "time 이 뭐가 들어오지? 밀리세컨즈가 들어오나? : " + time)
 
     // time 으로 밀리세컨즈가 들어온 데이터를 > '몇 일?' 이라는 기준에 맞게 변환하는 과정
-    let day = Math.floor( time / (24 * 60 * 60 * 1000 ));
+    let day = Math.floor( time / 24 * 60 * 60 * 1000 );
 
     // 밀리세컨즈롤 > '시간 단위' 에 맞게 변환하기 
         // 시간단위를 빼고 
@@ -296,7 +297,7 @@ function times (time) {
     let min = Math.floor( time / 60 * 1000);
     
     // 밀리세컨즈를 '초 단위' 로 변환
-    let sec = Math.floor( time / 60 * 1000);
+    let sec = Math.floor( time / 1000);
 
     console.log(day);
     console.log(hour);

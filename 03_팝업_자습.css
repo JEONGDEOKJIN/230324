@@ -5,21 +5,23 @@
     height: 100%;
 
     position: fixed;
+    display: none;
 
     /* 왼쪽 상단 모서리(중점값) 을 왼쪽상단, 에 둔다는 건가?❓❓  */
     top: 0;
     left: 0;
 
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(21, 12, 143, 0.3);
+    /* background-color: rgba(0, 0, 0, 0.3); */
 
     /* 처음엔 보이지 않게 해야 > 나중에 빵 뜰 때 보이니까 */
     /* 우선, 임시로 보이게 함 ✅✅✅  */
-    display: block;
+
 }
 
 
 /* 이 클래스가 붙으면 > 팝업이 켜진다. */
-.is-on {
+.is-on{
     display: block;
 }
 
@@ -46,7 +48,7 @@
 
 .popup-wrap .popup .popup-btn {
 
-    cursor: pointer;
+    /* cursor: pointer; */
 
     width: 30px;
     height: 30px;

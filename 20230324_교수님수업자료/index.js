@@ -180,6 +180,7 @@ function times(time){
     console.log(hour);
     console.log(min);
     console.log(sec);
+    
     if(time < 0)
     {
         // 지울 Interval 함수 매개변수로 전달하면된다.
