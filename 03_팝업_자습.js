@@ -54,7 +54,7 @@ let popupCookie = getCookie("event-popup");
 
         // 대략 7초? 동안 유지되는 쿠키 생성 ⭐⭐⭐ 
         setCookie("event-popup" , true, 10)
-            // 이 쿠키의 이름이 event-popup 인가?❓❓❓❓❓ 
+            // 이 쿠키의 이름이 event-popup 인가?❓❓❓❓❓ > 응 
     })
 
     // 2. 만들어진 쿠키의 데이터 유형 확인 
@@ -69,7 +69,7 @@ let popupCookie = getCookie("event-popup");
 
 
 
-// 🟦 get cookie 함수 : 만들어진 쿠키의 이름을 넣으면 > 문자열❓ 을 반환? ❓❓ (복붙한거라 음... )
+// 🟦 get cookie 함수 : 만들어진 쿠키의 이름을 넣으면 > 문자열❓ 을 반환? ❓❓
 
     // [참고]
         // 수업 때, 이 부분은, 구글에서 복붙해 왔음. 
@@ -121,7 +121,7 @@ let popupCookie = getCookie("event-popup");
                         // 2) ; 을 기준으로 '만료 날짜', '경로' 정보가 있음. ⭐
 
             
-            // 4. 해당 배열에서 > '시간 객체' 를 반환 받는다. 
+            // 4. getCookieTime에 문자열을 넣으면, > '배열' 을 거쳐서 '시간 객체' 를 반환 받는다. 
             let str2 = getCookieTime(str);
                 // [결과물] '쿠키 문자열' 을 split 등 하여 > 'time 객체' 로 return 
                     // [질문] time 객체 란? 
@@ -158,7 +158,7 @@ let popupCookie = getCookie("event-popup");
 
 
 
-// 🟦  '쿠키 문자열' 을 > 'time 객체' 로 만들기 
+// 🟦  '쿠키 문자열' 을 > '배열' 을 거쳐서 > 'time 객체' 로 만들기 
     function getCookieTime(cookie) {
         // 0. [input 데이터 예시]
             // event-popup=true;expires=Fri, 24 Mar 2023 08:40:59 GMT;path=/
@@ -220,36 +220,38 @@ let popupCookie = getCookie("event-popup");
             // [결과물] [object Object] 
 
 
+
 // ---------- 📚 위에서 만들어진 변수를 받아 > 시간 표시 
 
-// 🟦 1000 밀리 세컨즈 마다, 뭔가를 실행하게 함. 
-let setTime = setInterval(() => {
+// 🟦 1초 마다, 현재 시간을 뽑고 > popupTime 으로 '만료 시간 - 현재 시간' 계산하고 
+        // > times 로 밀리초를 변환하고 > innerHTML로 HTML 에 렌더함. 
+    let setTime = setInterval(() => {
     
-    // 현재 시간을 'date2' 객체에 담는다. 
-        let dateRepeatCheck = new Date();
+        // 현재 시간을 'date2' 객체에 담는다. 
+            let dateRepeatCheck = new Date();
 
-    // '남은 시간' 이라고 쓸 수 있는 span 태그를 > timeTag 에 넣는다. 
-        let timeTag = document.querySelector('.popup-time')
+        // '남은 시간' 이라고 쓸 수 있는 span 태그를 > timeTag 에 넣는다. 
+            let timeTag = document.querySelector('.popup-time')
 
-    // 쿠키데이터가 있으면 -> 
-    if(popupCookie != undefined) {
+        // 쿠키데이터가 있으면 -> 
+        if(popupCookie != undefined) {
 
-        // 생성된 쿠키 데이터를 > 객체화 해서 > time 의 값을 뽑고 > 변수에 넣는다 
-        let time = JSON.parse(popupCookie).time;
-            console.log(" time 의 데이터 타입은? " + typeof time);
-            // 여기가 '문자열' 이라고 가정 
+            // 생성된 쿠키 데이터를 > 객체화 해서 > time 의 값을 뽑고 > 변수에 넣는다 
+            let time = JSON.parse(popupCookie).time;
+                console.log(" time 의 데이터 타입은? " + typeof time);
+                // 여기가 '문자열' 이라고 가정 
 
-        // '시간' 을 '객체' 로 만들기
-        let dateCookieMade = new Date(time);
+            // '시간' 을 '객체' 로 만들기
+            let dateCookieMade = new Date(time);
 
-        console.log(dateCookieMade);
-        console.log(dateRepeatCheck);
-        console.log(popupTime(dateRepeatCheck, dateCookieMade))
+            console.log(dateCookieMade);
+            console.log(dateRepeatCheck);
+            console.log(popupTime(dateRepeatCheck, dateCookieMade))
 
-        timeTag.innerHTML = times(popupTime(dateRepeatCheck, dateCookieMade));
+            timeTag.innerHTML = times(popupTime(dateRepeatCheck, dateCookieMade));
+            
+        }
         
-    }
-    
 
     // [궁금증]
         // popupCookie 가, 문자열 인가? 
@@ -260,62 +262,65 @@ let setTime = setInterval(() => {
 
 }, 1000);
     // [해석]
-        // // 비동기 함수 setTimeout이 함수는 매개변수로 전달한 시간이후에 실행되는 함수.
-            // setTimeout(() => {
-            //     // 1초뒤에 실행
+        // ⭐⭐비동기 함수⭐⭐ setInterval 는 1) 해당 명령어를 2) 기준 시간 마다 실행 
+            // setInterval(() => {
+            //     // 1초 마다 실행
             // }, 1000);
 
 
 
-// 🟦 '현재 시각'과 '쿠키 만료 시간' 차이
-function popupTime (_dateRepeatCheck, _dateCookieMade) {
+// 🟦 '현재 시각'과 '쿠키 만료 미래 시간' 차이 반환
+function popupTime (_dateRepeatCheck, _dateCookieDelete) {
     
     // 해당 함수의 데이터 유형 확인
-    console.log( "✅ popupTime 데이터 유형 : " + _dateRepeatCheck.getTime() - _dateCookieMade.getTime())
+    console.log( "✅ popupTime 데이터 유형 : " + _dateRepeatCheck.getTime() - _dateCookieDelete.getTime())
         // 밀리세컨즈? 가 나오나? 
-
-    return _dateCookieMade.getTime() - _dateRepeatCheck.getTime() ;
+    
+    // '쿠키 만료 = 유효기간 = 미래시간' 임 > so, 좌항이 맞아
+    return _dateCookieDelete.getTime() - _dateRepeatCheck.getTime() ;
 }
 
 
 
-// 🟦 내가 원하는 형태로 시간을 변경한다. 
+// 🟦 1)밀리초를 day, hour, min, sec 로 변환 > 2) input 밀리초가 0 미만이면, clearInterval > 3) 글씨쓴거 지운다.
 function times (time) {
 
-    console.log( "time 이 뭐가 들어오지? 밀리세컨즈가 들어오나? : " + time)
+    // 1️⃣ 밀리초를 day, hour, min, sec 로 변환 
+        console.log( "time 이 뭐가 들어오지? 밀리세컨즈가 들어오나? : " + time)
 
-    // time 으로 밀리세컨즈가 들어온 데이터를 > '몇 일?' 이라는 기준에 맞게 변환하는 과정
-    let day = Math.floor( time / 24 * 60 * 60 * 1000 );
+        // time 으로 밀리세컨즈가 들어온 데이터를 > '몇 일?' 이라는 기준에 맞게 변환하는 과정
+        let day = Math.floor( time / (24 * 60 * 60 * 1000) );
 
-    // 밀리세컨즈롤 > '시간 단위' 에 맞게 변환하기 
-        // 시간단위를 빼고 
-    time %= (24 * 60 * 60 * 1000);
-    let hour = Math.floor( time / 60 * 60 * 1000);
-    
-    // 밀리세컨즈를 '분 단위' 로 변환
-    time %= (60 * 60 * 1000);
-    let min = Math.floor( time / 60 * 1000);
-    
-    // 밀리세컨즈를 '초 단위' 로 변환
-    let sec = Math.floor( time / 1000);
+        // 밀리세컨즈롤 > '시간 단위' 에 맞게 변환하기 
+            // 시간단위를 빼고 
+        time %= (24 * 60 * 60 * 1000);
+        let hour = Math.floor( time / (60 * 60 * 1000));
+        
+        // 밀리세컨즈를 '분 단위' 로 변환
+        time %= (60 * 60 * 1000);
+        let min = Math.floor( time / (60 * 1000));
+        
+        // 밀리세컨즈를 '초 단위' 로 변환
+        let sec = Math.floor( time / 1000);
 
-    console.log(day);
-    console.log(hour);
-    console.log(min);
-    console.log(sec);
+        console.log(day);
+        console.log(hour);
+        console.log(min);
+        console.log(sec);
 
+    // 2️⃣ input 되는 밀리초가 0 미만이면 > setInverval 시킨 것 중지 > 3️⃣ 글자 지우기
+        // 만약, 시간이 끝나면 > 이렇게 해라~
+        if(time < 0) {
 
-    // 만약, 시간이 끝나면 > 이렇게 해라~
-    if(time < 0) {
+            // setInterval 로 생성한 타이머를 중지시키기 
+            clearInterval(setTime);
 
-        // setInterval 로 생성한 타이머를 중지시키기 
-        clearInterval(setTime);
+            // 남은시간에 자동으로 표시될 구문(span 태그로 잡은 부분) 을 잡는다. > 그리고 지운다. 
+            let timeTag = document.querySelector('.popup-time')
+            timeTag.innerHTML = "";
+        }
 
-        // 남은시간에 자동으로 표시될 구문(span 태그로 잡은 부분) 을 잡는다. > 그리고 지운다. 
-        let timeTag = document.querySelector('.popup-time')
-        timeTag.innerHTML = "";
-    }
-
+    // 🔷 결과물 출력
     return `${day}일,  ${hour}시, ${min}분, ${sec}초`
 }
 
