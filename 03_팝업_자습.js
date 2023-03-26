@@ -69,7 +69,7 @@ let popupCookie = getCookie("event-popup");
 
 
 
-// 🟦 get cookie 함수 : 만들어진 쿠키의 이름을 넣으면 > 문자열❓ 을 반환? ❓❓
+// 🟦 get cookie 함수 : 만들어진 쿠키의 이름을 넣으면 > 쿠키 value를 반환?? 문자열❓ 을 반환? ❓❓
 
     // [참고]
         // 수업 때, 이 부분은, 구글에서 복붙해 왔음. 
